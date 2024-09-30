@@ -55,6 +55,9 @@ scene.add(obj02);
 const geometry03 = new THREE.SphereGeometry(0.5, 32, 16);
 const material03 = new THREE.MeshStandardMaterial({
   map: textureBaseColor,
+  normalMap: textureNormalMap,
+  displacementMap: textureHeightMap,
+  displacementScale: 0.1,
 });
 const obj03 = new THREE.Mesh(geometry03, material03);
 obj03.position.x = 1;
@@ -63,6 +66,11 @@ scene.add(obj03);
 const geometry04 = new THREE.SphereGeometry(0.5, 32, 16);
 const material04 = new THREE.MeshStandardMaterial({
   map: textureBaseColor,
+  normalMap: textureNormalMap,
+  displacementMap: textureHeightMap,
+  displacementScale: 0.1,
+  roughnessMap: textureRoughnessMap,
+  roughness: 0.5,
 });
 const obj04 = new THREE.Mesh(geometry04, material04);
 obj04.position.x = 3;
@@ -80,3 +88,10 @@ function animate() {
   renderer.render(scene, camera);
 }
 animate();
+
+function onWindowResize() {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
+window.addEventListener("resize", onWindowResize);

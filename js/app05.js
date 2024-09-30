@@ -1,4 +1,5 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three/build/three.module.js";
+import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.124/examples/jsm/controls/OrbitControls.js";
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xeeeeee);
@@ -18,6 +19,13 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 renderer.shadowMap.enabled = true;
+
+// orbitContriols 추가
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.minDistance = 2; // 화대할 수 있는 최소 거리
+controls.maxDistance = 8; // 화대할 수 있는 최대 거리
+controls.maxPolarAngle = Math.PI / 2; // 최대 각도 조절
+controls.update();
 
 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
 directionalLight.position.set(-2, 2, 2);
@@ -60,10 +68,10 @@ const geometry03 = new THREE.IcosahedronGeometry(0.5, 0);
 const material03 = new THREE.MeshStandardMaterial({
   color: 0x0004ff,
 });
-const obj03 = new THREE.Mesh(geometry03, material03);
-obj03.position.set(-1, 1, 0.5);
-obj03.castShadow = true;
-scene.add(obj03);
+const obj02 = new THREE.Mesh(geometry03, material03);
+obj02.position.set(-1, 1, 0.5);
+obj02.castShadow = true;
+scene.add(obj02);
 
 const geometry02 = new THREE.PlaneGeometry(20, 20, 1, 1);
 const material02 = new THREE.MeshStandardMaterial({
@@ -79,6 +87,10 @@ scene.add(plane);
 // 애니메이션 루프 추가
 function animate() {
   requestAnimationFrame(animate);
+
+  obj01.rotation.y += 0.01;
+  obj02.rotation.x += 0.01;
+  controls.update();
   renderer.render(scene, camera);
 }
 animate();
